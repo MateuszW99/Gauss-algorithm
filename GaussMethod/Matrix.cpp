@@ -2,6 +2,11 @@
 #include <istream>
 #include <fstream>
 
+Matrix::Matrix(std::string& fileName)
+{
+	readMatrix(fileName);
+}
+
 void Matrix::readMatrix(std::string& fileName)
 {
 	std::ifstream inp (fileName, std::ifstream::in);
@@ -24,19 +29,25 @@ void Matrix::readMatrix(std::string& fileName)
 		inp >> semicolon;
 	}
 
-	float valueForCompelementMatrix;
+	float complementaryValue;
 
 	for (auto row = matrix.begin(); row < matrix.end(); ++row)
 	{
-		row->resize(matrixSize);
-		for (auto column = row->begin(); column < row->end(); ++column)
+		row->resize(matrix.size());
+		std::vector<float>::iterator column;
+		for (column = row->begin(); column < row->end(); ++column)
 		{
 			inp >> *column;
 			inp >> semicolon;
 		}
 		inp >> semicolon;
-		inp >> valueForCompelementMatrix;
-		complementMatrix.push_back(valueForCompelementMatrix);
+		inp >> complementaryValue;	
+		complementaryMatrix.push_back(complementaryValue);
+	}
+
+	for (unsigned i = 0; i < complementaryMatrix.size(); ++i)
+	{
+		matrix[i].resize(matrix.size() + 1, complementaryMatrix[i]);
 	}
 }
 
@@ -51,8 +62,8 @@ void Matrix::print()
 		std::cout << '\n';
 	}
 
-	for (auto x : complementMatrix)
-	{
-		std::cout << x << " ";
-	}
+	//for (auto x : complementMatrix)
+	//{
+	//	std::cout << x << " ";
+	//}
 }

@@ -5,20 +5,18 @@
 class Matrix
 {
 public:
-	Matrix(std::string& fileName)
-	{
-		readMatrix(fileName);
-	}
+	Matrix(std::string& fileName);
 
-	std::vector<std::vector<float>>& getMatrix() { return matrix; }
-	std::vector<float>& getComplementMatrix() { return complementMatrix; }
+	//std::vector<std::vector<float>>& getMatrix() { return matrix; }
+	//std::vector<float>& getComplementMatrix() { return complementMatrix; }
+
+	std::vector<std::vector<float>> matrix;
+	
 
 	void print();
 
-
 private:
-	std::vector<std::vector<float>> matrix;
-	std::vector<float> complementMatrix;
+	std::vector<float> complementaryMatrix;
 
-	void readMatrix(std::string&);
+	void readMatrix(std::string& fileName);
 };
