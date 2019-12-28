@@ -6,21 +6,13 @@
 class Gauss
 {
 public:
-	Gauss()
-	{
-		std::cout << "Podaj nazwe pliku: ";
-		std::string nazwa;
-		std::cin >> nazwa;
-		matrix = new Matrix(nazwa);
-		matrix->print();
-	}
+	Gauss(std::string& fileName);
 
-	~Gauss()
-	{
-		delete matrix;
-	}
+	~Gauss();
+	Matrix* equations = nullptr;
+	void simpleSolution();
+	void printSimpleSolution() const;
 
-
-private:
-	Matrix* matrix = nullptr;
+//private:
+	
 };
