@@ -64,9 +64,3 @@ void Matrix::print() const
 		std::cout << '\n';
 	}
 }
-
-Matrix& Matrix::operator=(const Matrix& a)
-{
-	this->matrix = a.matrix;
-	return *this;
-}

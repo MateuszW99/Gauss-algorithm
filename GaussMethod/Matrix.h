@@ -12,8 +12,6 @@ public:
 
 	void print() const;
 
-	Matrix& operator=(const Matrix&);
-
 private:
 	std::vector<float> complementaryMatrix;
 
