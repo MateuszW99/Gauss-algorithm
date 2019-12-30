@@ -3,6 +3,8 @@
 
 int main()
 {
+	std::string name = "test3.csv";
+	Gauss gauss(name);
 	bool run = true;
 	while (run)
 	{
@@ -19,7 +21,7 @@ int main()
 		{
 		case 1:
 		{
-			//
+			gauss.simpleSolution();
 			break;
 		}
 		case 2:
@@ -44,4 +46,9 @@ int main()
 		}
 		}
 	}
+
+	//gauss.equations->print();
+	
+	//std::cout << "Wyniki\n";
+	//gauss.equations->print();
 }
