@@ -13,6 +13,10 @@ public:
 	void simpleSolution();
 	void printSimpleSolution() const;
 
-//private:
-	
+	static double E;
+
+private:
+	bool isZero(const float) const;
+	void zeroDiagonal();
+	void backSubstitution();
 };
