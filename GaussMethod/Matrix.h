@@ -7,13 +7,10 @@ class Matrix
 public:
 	Matrix(std::string& fileName);
 
-	//std::vector<std::vector<float>>& getMatrix() { return matrix; }
-	//std::vector<float>& getComplementMatrix() { return complementMatrix; }
-
 	std::vector<std::vector<float>> matrix;
 	
 
-	void print();
+	void print() const;
 
 private:
 	std::vector<float> complementaryMatrix;

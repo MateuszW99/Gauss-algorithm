@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include <istream>
 #include <fstream>
+#include <iomanip>
 
 Matrix::Matrix(std::string& fileName)
 {
@@ -51,8 +52,9 @@ void Matrix::readMatrix(std::string& fileName)
 	}
 }
 
-void Matrix::print()
+void Matrix::print() const
 {
+	std::cout << std::setprecision(4) << std::setw(3);
 	for (auto row = matrix.begin(); row < matrix.end(); ++row)
 	{
 		for (auto column = row->begin(); column < row->end(); ++column)
@@ -61,9 +63,4 @@ void Matrix::print()
 		}
 		std::cout << '\n';
 	}
-
-	//for (auto x : complementMatrix)
-	//{
-	//	std::cout << x << " ";
-	//}
 }
