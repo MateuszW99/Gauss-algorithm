@@ -13,8 +13,8 @@ public:
 
 	void simpleElimination();
 	void printSimpleSolution() const;
-	void swapRows();
-	void swapColumns();
+	void chooseRowSolution();
+
 	void completeElimination();
 
 private:
@@ -23,4 +23,7 @@ private:
 	bool isZero(const float) const;
 	void zeroDiagonal();
 	void backSubstitution();
+
+	void swapRows(const int, const int);
+	void swapColumns();
 };

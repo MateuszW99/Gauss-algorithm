@@ -49,10 +49,70 @@ void Gauss::printSimpleSolution() const
 	}
 }
 
-void Gauss::swapRows()
+void Gauss::chooseRowSolution()
 {
+	float max = 0;
+	int columnIndex = 0;
+	try
+	{
+		for (unsigned i = 0; i < equations->matrix.size(); ++i)
+		{
+			columnIndex = i;
+			max = std::fabs(equations->matrix.at(i).at(i));
+			for (unsigned j = i; j < equations->matrix.at(i).size(); ++j)
+			{
+				if (std::fabs(equations->matrix.at(i).at(j) > max))
+				{
+					max = std::fabs(equations->matrix.at(i).at(j));
+					columnIndex = j;
+				}
+			}
+			if (columnIndex != i)
+			{
+				swapRows(columnIndex, i);
+			}
+			if (isZero(equations->matrix.at(i).at(i)))
+			{
+				std::cout << "Znaleziono 0 na przekatnej macierzy\n";
+			    return;
+			}
+			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
+			{
+				float calculatedConst = equations->matrix.at(j).at(i) / equations->matrix.at(i).at(i);
+				for (unsigned k = i; k < equations->matrix.at(i).size(); ++k)
+				{
+					equations->matrix.at(j).at(k) -= (calculatedConst * equations->matrix.at(i).at(k));
+				}
+			}
+		}
 
+		backSubstitution();
+	}
+	catch (std::exception e)
+	{
+		std::cout << "chooseRowSolution(): " << "1" << e.what();
+	}
 }
+
+
+void Gauss::swapRows(const int index1, const int index2)
+{
+	try
+	{
+		for (unsigned i = 0; i < equations->matrix.size(); ++i)
+		{
+			std::swap(equations->matrix.at(i).at(index1), equations->matrix.at(i).at(index2));
+		}
+		std::cout << "index1: " << index1 << ", index2: " << index2 << '\n';
+		//std::swap(equations->matrix.at(index1).at(equations->matrix.size()), equations->matrix.at(index2).at(equations->matrix.size()));
+	}
+	catch (std::exception e)
+	{
+		std::cout << "chooseRowSolution(): " << "2" << e.what();
+	}
+}
+
+
 
 void Gauss::swapColumns()
 {
@@ -116,7 +176,7 @@ void Gauss::backSubstitution()
 	{
 		std::cout << "backSubstitution(): " << e.what();
 	}
-	std::cout << std::setprecision(2) << std::setw(5);
+	std::cout << std::setprecision(4);
 	std::cout << "Rozwiazania:\n";
 	for (unsigned i = 0; i < solution.size(); ++i)
 	{
