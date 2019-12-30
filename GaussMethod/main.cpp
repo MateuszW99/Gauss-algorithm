@@ -4,7 +4,7 @@
 int main()
 {
 	std::string name = "test3.csv";
-	Gauss gauss(name);
+
 	bool run = true;
 	while (run)
 	{
@@ -21,22 +21,27 @@ int main()
 		{
 		case 1:
 		{
-			gauss.simpleSolution();
+			Gauss gauss(name);
+			gauss.simpleElimination();
+			std::cout << '\n';
 			break;
 		}
 		case 2:
 		{
 			//
+			std::cout << '\n';
 			break;
 		}
 		case 3:
 		{
 			//
+			std::cout << '\n';
 			break;
 		}
 		case 4:
 		{
 			//
+			std::cout << '\n';
 			break;
 		}
 		case 5:
@@ -46,9 +51,4 @@ int main()
 		}
 		}
 	}
-
-	//gauss.equations->print();
-	
-	//std::cout << "Wyniki\n";
-	//gauss.equations->print();
 }
