@@ -13,7 +13,7 @@ Gauss::~Gauss()
 	delete equations;
 }
 
-void Gauss::simpleSolution()
+void Gauss::simpleElimination()
 {
 	try
 	{
@@ -49,6 +49,25 @@ void Gauss::printSimpleSolution() const
 	}
 }
 
+void Gauss::swapRows()
+{
+
+}
+
+void Gauss::swapColumns()
+{
+
+}
+
+void Gauss::completeElimination()
+{
+
+}
+
+
+
+
+
 bool Gauss::isZero(const float element) const
 {
 	if (std::fabs(element) < Gauss::E)
@@ -81,7 +100,7 @@ void Gauss::backSubstitution()
 		for (int i = solution.size() - 1; i >= 0; --i)
 		{
 			float sum = equations->matrix.at(i).at(equations->matrix.at(i).size() - 1);
-			for (unsigned j = equations->matrix.size() - 1; j >= i + 1; --j)
+			for (int j = equations->matrix.size() - 1; j >= i + 1; --j)
 			{
 				sum -= (solution.at(j) * equations->matrix.at(i).at(j));
 				if (equations->matrix.at(i).at(i) == 0)

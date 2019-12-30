@@ -7,15 +7,19 @@ class Gauss
 {
 public:
 	Gauss(std::string& fileName);
-
 	~Gauss();
-	Matrix* equations = nullptr;
-	void simpleSolution();
-	void printSimpleSolution() const;
 
-	static double E;
+	Matrix* equations = nullptr;
+
+	void simpleElimination();
+	void printSimpleSolution() const;
+	void swapRows();
+	void swapColumns();
+	void completeElimination();
 
 private:
+	static double E;
+
 	bool isZero(const float) const;
 	void zeroDiagonal();
 	void backSubstitution();
