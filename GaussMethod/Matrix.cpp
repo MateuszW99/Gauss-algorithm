@@ -35,7 +35,7 @@ void Matrix::readMatrix(std::string& fileName)
 	for (auto row = matrix.begin(); row < matrix.end(); ++row)
 	{
 		row->resize(matrix.size());
-		std::vector<float>::iterator column;
+		std::vector<double>::iterator column;
 		for (column = row->begin(); column < row->end(); ++column)
 		{
 			inp >> *column;
@@ -54,7 +54,7 @@ void Matrix::readMatrix(std::string& fileName)
 
 void Matrix::print() const
 {
-	std::cout << std::setprecision(4) << std::setw(3);
+	std::cout << std::setprecision(4);
 	for (auto row = matrix.begin(); row < matrix.end(); ++row)
 	{
 		for (auto column = row->begin(); column < row->end(); ++column)
