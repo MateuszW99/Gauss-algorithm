@@ -23,7 +23,7 @@ void Matrix::readMatrix(std::string& fileName)
 	std::size_t matrixSize;
 	inp >> matrixSize;
 	matrix.resize(matrixSize);
-
+	std::vector<double> complementaryMatrix;
 
 	for (unsigned i = 0; i < matrixSize + 1; ++i)
 	{
@@ -50,6 +50,8 @@ void Matrix::readMatrix(std::string& fileName)
 	{
 		matrix[i].resize(matrix.size() + 1, complementaryMatrix[i]);
 	}
+
+	matrixCopy = matrix;
 }
 
 void Matrix::print() const
@@ -63,4 +65,9 @@ void Matrix::print() const
 		}
 		std::cout << '\n';
 	}
+}
+
+void Matrix::restoreMatrix()
+{
+	matrix = matrixCopy;
 }
