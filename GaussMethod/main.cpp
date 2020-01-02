@@ -22,33 +22,39 @@ int main()
 		case 1:
 		{
 			Gauss gauss(name);
-			gauss.simpleElimination();
+			gauss.basicElimination();
 			std::cout << '\n';
 			break;
 		}
 		case 2:
 		{
 			Gauss gauss(name);
-			gauss.chooseRowSolution();
+			gauss.swapRowsElimination();
 			std::cout << '\n';
 			break;
 		}
 		case 3:
 		{
 			Gauss gauss(name);
-			gauss.chooseColumnSolution();
+			gauss.swapColumnsElimination();
 			std::cout << '\n';
 			break;
 		}
 		case 4:
 		{
-			//
+			Gauss gauss(name);
+			gauss.completeElimination();
 			std::cout << '\n';
 			break;
 		}
 		case 5:
 		{
 			run = false;
+			break;
+		}
+		default:
+		{
+			std::cout << "Nie istnieje taka opcja.\n";
 			break;
 		}
 		}

@@ -11,8 +11,7 @@ public:
 
 	Matrix* equations = nullptr;
 
-	void simpleElimination();
-	void printSimpleSolution() const;
+	void basicElimination();
 	void swapRowsElimination();
 	void swapColumnsElimination();
 	void completeElimination();
@@ -20,10 +19,10 @@ public:
 private:
 	static double E;
 
-	bool isZero(const float) const;
-	void zeroDiagonal();
+	bool isZero(const double) const;
 	void backSubstitution();
-
+	void substractRows(const int);
 	void swapRows(const int, const int);
 	void swapColumns(const int, const int);
+	void printSolutions(const std::vector<double>&) const;
 };

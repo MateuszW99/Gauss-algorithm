@@ -13,7 +13,25 @@ Gauss::~Gauss()
 	delete equations;
 }
 
-void Gauss::simpleElimination()
+void Gauss::substractRows(const int i)
+{
+	for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
+	{
+		if (isZero(equations->matrix.at(i).at(i)))
+		{
+			std::cout << "\nZnaleziono 0 na przekatnej macierzy\n";
+			return;
+		}
+
+		double calculatedConst = equations->matrix.at(j).at(i) / equations->matrix.at(i).at(i);
+		for (unsigned k = i; k < equations->matrix.at(i).size(); ++k)
+		{
+			equations->matrix.at(j).at(k) -= (calculatedConst * equations->matrix.at(i).at(k));
+		}
+	}
+}
+
+void Gauss::basicElimination()
 {
 	try
 	{
@@ -24,14 +42,8 @@ void Gauss::simpleElimination()
 				std::cout << "Znaleziono 0 na przekatnej macierzy\n";
 				return;
 			}
-			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
-			{
-				float calculatedConst = equations->matrix.at(j).at(i) / equations->matrix.at(i).at(i);
-				for (unsigned k = 0; k < equations->matrix.at(i).size(); ++k)
-				{
-					equations->matrix.at(j).at(k) -= (calculatedConst * equations->matrix.at(i).at(k));
-				}
-			}
+
+			substractRows(i);
 		}
 		backSubstitution();
 	}
@@ -41,17 +53,9 @@ void Gauss::simpleElimination()
 	}
 }
 
-void Gauss::printSimpleSolution() const
-{
-	for (auto row = equations->matrix.begin(); row < equations->matrix.end(); ++row)
-	{
-		std::cout << "X = " << *(row->end() - 1) << '\n';
-	}
-}
-
 void Gauss::swapRowsElimination()
 {
-	float max = 0;
+	double max = 0;
 	int maxElementIndex = 0;
 	try
 	{
@@ -59,37 +63,27 @@ void Gauss::swapRowsElimination()
 		{
 			maxElementIndex = i;
 			max = std::fabs(equations->matrix.at(i).at(i));
-			for (unsigned j = i; j < equations->matrix.at(i).size(); ++j)
+			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
 			{
-				if (std::fabs(equations->matrix.at(i).at(j) > max))
+				if (std::fabs(equations->matrix.at(j).at(i) > max))
 				{
-					max = std::fabs(equations->matrix.at(i).at(j));
+					max = std::fabs(equations->matrix.at(j).at(i));
 					maxElementIndex = j;
 				}
 			}
 
-			if (maxElementIndex < i)
+			if (max == 0)
 			{
-				std::cout << "swapping\n";
-				swapRows(maxElementIndex, i);
-				equations->print();
-				std::cout << '\n';
+				std::cout << "Macierz osobliwa.\n";
+				return;
 			}
 
-			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
+			if (maxElementIndex != i)
 			{
-				if (isZero(equations->matrix.at(i).at(i)))
-				{
-					std::cout << "\nZnaleziono 0 na przekatnej macierzy\n";
-					return;
-				}
-				float calculatedConst = equations->matrix.at(j).at(i) / equations->matrix.at(i).at(i);
-				 
-				for (unsigned k = i; k < equations->matrix.at(i).size(); ++k)
-				{
-					equations->matrix.at(j).at(k) -= (calculatedConst * equations->matrix.at(i).at(k));
-				}
+				swapRows(maxElementIndex, i);
 			}
+
+			substractRows(i);
 		}
 
 		backSubstitution();
@@ -102,7 +96,7 @@ void Gauss::swapRowsElimination()
 
 void Gauss::swapColumnsElimination()
 {
-	float max = 0;
+	double max = 0;
 	int maxElementIndex = 0;
 	try
 	{
@@ -110,35 +104,27 @@ void Gauss::swapColumnsElimination()
 		{
 			maxElementIndex = i;
 			max = std::fabs(equations->matrix.at(i).at(i));
-			for (unsigned j = i; j < equations->matrix.at(i).size(); ++j)
+			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
 			{
 				if (std::fabs(equations->matrix.at(i).at(j) > max))
 				{
 					max = std::fabs(equations->matrix.at(i).at(j));
-					maxElementIndex = i;
+					maxElementIndex = j;
 				}
-			}
-			if (maxElementIndex <= i)
-			{
-				std::cout << "swapping\n";
-				swapRows(maxElementIndex, i);
-				
 			}
 
-			for (unsigned j = i + 1; j < equations->matrix.size(); ++j)
+			if (max == 0)
 			{
-				if (isZero(equations->matrix.at(i).at(i)))
-				{
-					std::cout << "\nZnaleziono 0 na przekatnej macierzy\n";
-					return;
-				}
-				float calculatedConst = equations->matrix.at(j).at(i) / equations->matrix.at(i).at(i);
-
-				for (unsigned k = i; k < equations->matrix.at(i).size(); ++k)
-				{
-					equations->matrix.at(j).at(k) -= (calculatedConst * equations->matrix.at(i).at(k));
-				}
+				std::cout << "Macierz osobliwa.\n";
+				return;
 			}
+
+			if (maxElementIndex != i)
+			{
+				swapColumns(maxElementIndex, i);			
+			}
+
+			substractRows(i);
 		}
 
 		backSubstitution();
@@ -149,89 +135,96 @@ void Gauss::swapColumnsElimination()
 	}
 }
 
-
-void Gauss::swapRows(const int index1, const int index2)
-{
-	try
-	{
-		std::cout << "index1: " << index1 << ", index2: " << index2 << '\n';
-		for (unsigned i = 0; i < equations->matrix.size() + 1; ++i)
-		{
-			std::swap(equations->matrix.at(index1).at(i), equations->matrix.at(index2).at(i));
-		}
-		
-		//std::swap(equations->matrix.at(index1).at(equations->matrix.size()), equations->matrix.at(index2).at(equations->matrix.size()));
-	}
-	catch (std::exception e)
-	{
-		std::cout << "\nchooseRowSolution(): " << "2" << e.what() << '\n';
-	}
-}
-
-
-
-void Gauss::swapColumns(const int index1, const int index2)
-{
-	try
-	{
-		std::cout << "index1: " << index1 << ", index2: " << index2 << '\n';
-		for (unsigned i = 0; i < equations->matrix.size() + 1; ++i)
-		{
-			std::swap(equations->matrix.at(i).at(index1), equations->matrix.at(i).at(index2));
-		}
-
-		//std::swap(equations->matrix.at(index1).at(equations->matrix.size()), equations->matrix.at(index2).at(equations->matrix.size()));
-	}
-	catch (std::exception e)
-	{
-		std::cout << "\nchooseRowSolution(): " << "2" << e.what() << '\n';
-	}
-}
-
 void Gauss::completeElimination()
 {
-
-}
-
-
-
-
-
-bool Gauss::isZero(const float element) const
-{
-	if (std::fabs(element) < Gauss::E)
+	double max = 0;
+	int columnIndex = 0;
+	int rowIndex = 0;
+	try
 	{
-		return true;
-	}
-	return false;
-}
-
-void Gauss::zeroDiagonal()
-{
-	for (auto row = equations->matrix.begin() + 1; row < equations->matrix.end(); ++row)
-	{
-		for (auto column = row->begin(); column < row->end(); ++column)
+		for (unsigned i = 0; i < equations->matrix.size(); ++i)
 		{
-			if (isZero(*column))
+			columnIndex = i;
+			rowIndex = i;
+			max = std::fabs(equations->matrix.at(i).at(i));
+			for (unsigned j = i; j < equations->matrix.size(); ++j)
 			{
-				*column = 0;
+				for (unsigned k = i; k < equations->matrix.size(); ++k)
+				{
+					if (std::fabs(equations->matrix.at(j).at(k)) > max)
+					{
+						max = std::fabs(equations->matrix.at(j).at(k));
+						columnIndex = k;
+						rowIndex = j;
+					}
+				}
 			}
+
+			if (max == 0)
+			{
+				std::cout << "Macierz osobliwa.\n";
+				return;
+			}
+
+			if (columnIndex != i)
+			{
+				swapColumns(columnIndex, i);
+			}
+			if (rowIndex != i)
+			{
+				swapRows(rowIndex, i);
+			}
+
+			substractRows(i);
+		
 		}
+		backSubstitution();
+	}
+	catch (std::exception e)
+	{
+		std::cout << "\ncompleteElimination(): " << e.what() << '\n';
+	}
+}
+
+void Gauss::swapRows(const int maxElementIndex, const int rowIndex)
+{
+	try
+	{
+		for (unsigned i = 0; i < equations->matrix.size() + 1; ++i)
+		{
+			std::swap(equations->matrix.at(maxElementIndex).at(i), equations->matrix.at(rowIndex).at(i));
+		}
+	}
+	catch (std::exception e)
+	{
+		std::cout << "\nspawRows(): " << e.what() << '\n';
+	}
+}
+
+void Gauss::swapColumns(const int maxElementIndex, const int columnIndex)
+{
+	try
+	{
+		for (unsigned i = 0; i < equations->matrix.size(); ++i)
+		{
+			std::swap(equations->matrix.at(i).at(maxElementIndex), equations->matrix.at(i).at(columnIndex));
+		}
+	}
+	catch (std::exception e)
+	{
+		std::cout << "\nswapColumns(): " << e.what() << '\n';
 	}
 }
 
 void Gauss::backSubstitution()
 {
-	equations->print();
-	std::vector<float> solution(equations->matrix.size(), 0);
-	solution.at(solution.size() - 1) = equations->matrix.at(equations->matrix.size() - 1).at(equations->matrix.size()) / equations->matrix.at(equations->matrix.size() - 1).at(equations->matrix.size() - 1);
+	std::vector<double> solutions(equations->matrix.size(), 0);
+	solutions.at(solutions.size() - 1) = equations->matrix.at(equations->matrix.size() - 1).at(equations->matrix.size()) / equations->matrix.at(equations->matrix.size() - 1).at(equations->matrix.size() - 1);
 	try
 	{
-		for (int i = solution.size() - 1; i >= 0; --i)
+		for (int i = solutions.size() - 1; i >= 0; --i)
 		{
-
-
-			float sum = equations->matrix.at(i).at(equations->matrix.at(i).size() - 1);
+			double sum = equations->matrix.at(i).at(equations->matrix.at(i).size() - 1);
 
 			for (int j = equations->matrix.size() - 1; j >= i + 1; --j)
 			{
@@ -240,19 +233,34 @@ void Gauss::backSubstitution()
 					std::cout << "Znaleziono 0 na przekatnej macierzy\n";
 					continue;
 				}
-				sum -= (solution.at(j) * equations->matrix.at(i).at(j));
-				solution.at(i) = sum / equations->matrix.at(i).at(i);
+				sum -= (solutions.at(j) * equations->matrix.at(i).at(j));
+				solutions.at(i) = sum / equations->matrix.at(i).at(i);
 			}
 		}
+
+		printSolutions(solutions);
 	}
 	catch (std::exception e)
 	{
 		std::cout << "\nbackSubstitution(): " << e.what();
 	}
-	std::cout << std::setprecision(4);
-	std::cout << "\nRozwiazania:\n";
-	for (unsigned i = 0; i < solution.size(); ++i)
+}
+
+void Gauss::printSolutions(const std::vector<double>& solutions) const
+{
+	std::cout << std::setprecision(4) << "\nRozwiazania:\n";
+	for (unsigned i = 0; i < solutions.size(); ++i)
 	{
-		std::cout << "X" << i + 1 << " = " << solution[i] << '\n';
+		std::cout << "X" << i + 1 << " = " << solutions[i] << '\n';
 	}
 }
+
+bool Gauss::isZero(const double element) const
+{
+	if (std::fabs(element) < Gauss::E)
+	{
+		return true;
+	}
+	return false;
+}
+
