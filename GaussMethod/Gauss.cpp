@@ -39,7 +39,7 @@ void Gauss::basicElimination()
 		{
 			if (equations->matrix.at(i).at(i) == 0)
 			{
-				std::cout << "Znaleziono 0 na przekatnej macierzy\n";
+				std::cout << "\nZnaleziono 0 na przekatnej macierzy\n";
 				return;
 			}
 
@@ -230,7 +230,7 @@ void Gauss::backSubstitution()
 			{
 				if (equations->matrix.at(i).at(i) == 0)
 				{
-					std::cout << "Znaleziono 0 na przekatnej macierzy\n";
+					std::cout << "\nZnaleziono 0 na przekatnej macierzy\n";
 					continue;
 				}
 				sum -= (solutions.at(j) * equations->matrix.at(i).at(j));
@@ -239,6 +239,8 @@ void Gauss::backSubstitution()
 		}
 
 		printSolutions(solutions);
+
+		equations->restoreMatrix();
 	}
 	catch (std::exception e)
 	{
