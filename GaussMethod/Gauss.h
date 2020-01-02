@@ -14,7 +14,7 @@ public:
 	void simpleElimination();
 	void printSimpleSolution() const;
 	void chooseRowSolution();
-
+	void chooseColumnSolution();
 	void completeElimination();
 
 private:
@@ -25,5 +25,5 @@ private:
 	void backSubstitution();
 
 	void swapRows(const int, const int);
-	void swapColumns();
+	void swapColumns(const int, const int);
 };
