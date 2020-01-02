@@ -13,8 +13,8 @@ public:
 
 	void simpleElimination();
 	void printSimpleSolution() const;
-	void chooseRowSolution();
-	void chooseColumnSolution();
+	void swapRowsElimination();
+	void swapColumnsElimination();
 	void completeElimination();
 
 private:

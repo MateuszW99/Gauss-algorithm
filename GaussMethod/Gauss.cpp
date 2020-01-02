@@ -49,7 +49,7 @@ void Gauss::printSimpleSolution() const
 	}
 }
 
-void Gauss::chooseRowSolution()
+void Gauss::swapRowsElimination()
 {
 	float max = 0;
 	int maxElementIndex = 0;
@@ -100,7 +100,7 @@ void Gauss::chooseRowSolution()
 	}
 }
 
-void Gauss::chooseColumnSolution()
+void Gauss::swapColumnsElimination()
 {
 	float max = 0;
 	int maxElementIndex = 0;
