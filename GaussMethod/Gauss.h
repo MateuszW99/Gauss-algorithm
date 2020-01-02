@@ -1,6 +1,5 @@
 #pragma once
 #include "Matrix.h"
-#include <string>
 #include <iostream>
 
 class Gauss
