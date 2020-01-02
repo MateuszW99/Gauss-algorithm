@@ -3,7 +3,7 @@
 
 int main()
 {
-	std::string name = "test2.csv";
+	std::string name = "test.csv";
 
 	bool run = true;
 	while (run)
@@ -35,7 +35,8 @@ int main()
 		}
 		case 3:
 		{
-			//
+			Gauss gauss(name);
+			gauss.chooseColumnSolution();
 			std::cout << '\n';
 			break;
 		}
